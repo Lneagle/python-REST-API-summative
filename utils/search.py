@@ -6,7 +6,7 @@ def search_for_products(keyword, fields):
     product_ingredients = ''
     api_fields = ','.join(fields)
     api_url = f'https://world.openfoodfacts.org/cgi/search.pl?search_terms={keyword}&lc=en&json=1&fields={api_fields}&page_size=1'
-    print(api_url)
+
     response = requests.get(api_url)
     if response.status_code == 200:
         data = response.json()

@@ -8,6 +8,7 @@ flask = "*"
 pytest = "*"
 flask-cors = "*"
 requests = "*"
+typer = "*"
 
 [dev-packages]
 

@@ -7,7 +7,7 @@ from utils.search import search_for_products
 app = Flask(__name__)
 CORS(app)
 
-products = []
+products = [] #Product Inventory
 
 @app.route('/inventory', methods=['GET'])
 def get_inventory():
@@ -25,7 +25,7 @@ def add_product():
     product_quantity = data.get('quantity')
     product_id = max((p['id'] for p in products), default=0) + 1
     
-    (product_name, product_brands, product_ingredients) = search_for_products(search_term, ['product_name', 'brands', 'ingredients_text'])
+    (product_name, product_brands, product_ingredients) = search_for_products(search_term, ['product_name', 'brands', 'ingredients_text']) #gets information from Open Food Facts API
     
     new_product = {"id": product_id, "name": product_name, "brands": product_brands, "ingredients": product_ingredients, "quantity": product_quantity}
     
@@ -53,7 +53,7 @@ def delete_product(id):
         return ('Product not found', 404)
     products.pop(product_index)
 
-    return ('Product deleted', 204)
+    return (f'Product {id} deleted', 204)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
