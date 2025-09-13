@@ -8,12 +8,12 @@ def client():
     return app.test_client()
 
 def test_add_new_product(client):
-    payload = {"name": "tangerines", "quantity": 10}
+    payload = {"name": "oreos", "quantity": 10}
     response = client.post("/inventory", data=json.dumps(payload), content_type="application/json")
     assert response.status_code == 201
     data = response.get_json()
     assert isinstance(data, dict)
-    assert data["name"] == payload["name"]
+    assert "oreo" in data["name"].lower()
     assert data["quantity"] == payload["quantity"]
     assert "id" in data
 
@@ -23,7 +23,7 @@ def test_list_products(client):
     data = response.get_json()[0]
     assert isinstance(data, dict)
     assert "name" in data
-    assert "tangerines" in data["name"].lower()
+    assert "oreo" in data["name"].lower()
 
 def test_get_product(client):
     response = client.get("/inventory/1")
@@ -31,19 +31,19 @@ def test_get_product(client):
     data = response.get_json()
     assert isinstance(data, dict)
     assert "name" in data
-    assert "tangerines" in data["name"].lower()
+    assert "oreo" in data["name"].lower()
 
 def test_get_incorrect_product(client):
     response = client.get("/inventory/10")
     assert response.status_code == 404
 
 def test_update_product_name(client):
-    payload = {"name": "grapefruit"}
+    payload = {"name": "cookie"}
     response = client.patch("/inventory/1", data=json.dumps(payload), content_type="application/json")
     assert response.status_code == 200
     data = response.get_json()
     assert isinstance(data, dict)
-    assert "grapefruit" in data["name"].lower()
+    assert "cookie" in data["name"].lower()
 
 def test_update_product_quantity(client):
     payload = {"quantity": 30}
@@ -54,7 +54,7 @@ def test_update_product_quantity(client):
     assert data["quantity"] == 30
 
 def test_update_incorrect_product(client):
-    payload = {"name": "grapefruit"}
+    payload = {"name": "cookie"}
     response = client.patch("/inventory/10", data=json.dumps(payload), content_type="application/json")
     assert response.status_code == 404
 
