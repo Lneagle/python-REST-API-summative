@@ -23,6 +23,8 @@ def add_product():
     data = request.get_json()
     search_term = data.get('name')
     product_quantity = data.get('quantity')
+    if not search_term or not product_quantity:
+        return ('Name and quantity are required', 400)
     product_id = max((p['id'] for p in products), default=0) + 1
     
     (product_name, product_brands, product_ingredients) = search_for_products(search_term, ['product_name', 'brands', 'ingredients_text']) #gets information from Open Food Facts API

@@ -18,9 +18,11 @@ def print_product(product):
 @app.command()
 def add_product(name: str, quantity: int):
     response = requests.post(server_url, json={'name': name, 'quantity': quantity})
-    data = response.json()
-
-    print(f"Product added: {data['name']}, quantity: {data['quantity']}")
+    if response.status_code == 201:
+        data = response.json()
+        print(f"Product added: {data['name']}, quantity: {data['quantity']}")
+    else:
+        print (response.text)
 
 @app.command()
 def list_products():
