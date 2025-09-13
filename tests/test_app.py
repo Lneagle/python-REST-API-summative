@@ -17,6 +17,11 @@ def test_add_new_product(client):
     assert data["quantity"] == payload["quantity"]
     assert "id" in data
 
+def test_add_incomplete_product(client):
+    payload = {"name": "oreos"}
+    response = client.post("/inventory", data=json.dumps(payload), content_type="application/json")
+    assert response.status_code == 400
+
 def test_list_products(client):
     response = client.get("/inventory")
     assert response.status_code == 200
